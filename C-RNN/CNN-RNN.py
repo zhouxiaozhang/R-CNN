@@ -14,7 +14,7 @@ class malware_CNN(object):
         self.pad=tf.placeholder(tf.float32,[None,1,self._config.embedding_dim,1],name="pad")
         
         l2_loss=tf.constant(0.0)
-        #embedding,ø…“‘≥¢ ‘”√one-hot,char_expanded [batch,sequence_length,embeding_dim,1]
+        #embedding,ÂèØ‰ª•Â∞ùËØïÁî®one-hot,char_expanded [batch,sequence_length,embeding_dim,1]
         with tf.device("/cpu:0"),tf.name_scope("embedding"):
             if not self._config.one_hot :
                 self.embedded=tf.get_variable(name="embedded",shape=[self._config.vocab_size,self._config.embedding_dim],initializer=tf.random_uniform_initializer(-1.0,1.0))
@@ -54,7 +54,7 @@ class malware_CNN(object):
                 print("pooled",pooled.get_shape())
                 self.pooled_outputs.append(pooled)
                 
-        # Combine all the pooled features£¨1£¨1£¨1£¨1 -°∑1£¨1£¨1£¨3,final [batch reduced num_filter1*3]
+        # Combine all the pooled featuresÔºå1Ôºå1Ôºå1Ôºå1 -„Äã1Ôºå1Ôºå1Ôºå3,final [batch reducedÔºàÁõ∏ÂΩì‰∫ésequenceÔºâ num_filter1*3]
         #num_filters_total=self._config.num_filter1*len(self._config.filter_sizes)
         self.h_pool = tf.concat(self.pooled_outputs, 2)
         print("self.h_pool",self.h_pool.get_shape())
