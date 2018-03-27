@@ -10,7 +10,7 @@ class malware_CNN(object):
         self.input_y=tf.placeholder(tf.float32,[None,self._config.num_classes],name="input_y")
         self.dropout_keep_prob=tf.placeholder(tf.float32,name="dropout_keep_prob")
         l2_loss=tf.constant(0.0)
-        #embedding,ø…“‘≥¢ ‘”√one-hot
+        #embedding,ÂèØ‰ª•Â∞ùËØïÁî®one-hot
         with tf.device("/cpu:0"),tf.name_scope("embedding"):
             if not self._config.one_hot :
                 self.embedded=tf.get_variable(name="embedded",shape=[self._config.vocab_size,self._config.embedding_dim],initializer=tf.random_uniform_initializer(-1.0,1.0))
@@ -29,6 +29,7 @@ class malware_CNN(object):
                 W=tf.get_variable(name="W", shape=filter_shape,initializer=tf.truncated_normal_initializer(stddev = 0.1))
                 #W=tf.Variable(tf.truncated_normal(filter_shape,stddev=0.1),name="W")
                 b=tf.get_variable(name="b",shape=[self._config.num_filter1],initializer=tf.constant_initializer(value=0.1, dtype=tf.float32))
+                #zero padding outside the edges
                 conv=tf.nn.conv2d(self.embedded_chars_expanded,W,strides=[1,1,1,1],padding="VALID",name="conv1")
                 #apply nonlinearity
                 h=tf.nn.relu(tf.nn.bias_add(conv,b),name="relu")
@@ -38,7 +39,7 @@ class malware_CNN(object):
                 # norm1 = tf.nn.lrn(pooled, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name='norm1')
                 self.pooled_outputs.append(pooled)
                 
-        # Combine all the pooled features£¨1£¨1£¨1£¨1 -°∑1£¨1£¨1£¨3
+        # Combine all the pooled featuresÔºå1Ôºå1Ôºå1Ôºå1 -„Äã1Ôºå1Ôºå1Ôºå3
         num_filters_total=self._config.num_filter1*len(self._config.filter_sizes)
         self.h_pool = tf.concat(self.pooled_outputs, 3)
         self.h_pool_flat=tf.reshape(self.h_pool,[-1,num_filters_total])
