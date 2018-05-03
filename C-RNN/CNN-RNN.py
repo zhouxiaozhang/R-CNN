@@ -54,8 +54,9 @@ class malware_CNN(object):
                 print("pooled",pooled.get_shape())
                 self.pooled_outputs.append(pooled)
                 
-        # Combine all the pooled features，1，1，1，1 -》1，1，1，3,final [batch reduced（相当于sequence） num_filter1*3]
+        # Combine all the pooled features，1，1，1 -》1，1，3,final [batch reduced（相当于sequence） num_filter1*3]
         #num_filters_total=self._config.num_filter1*len(self._config.filter_sizes)
+        #（batch reduced（相当于sequence） num_filter1*3-》concat）
         self.h_pool = tf.concat(self.pooled_outputs, 2)
         print("self.h_pool",self.h_pool.get_shape())
 
